@@ -22,6 +22,7 @@ class DuuxApiClient:
 
     async def send_command(self, command: dict) -> dict:
         """Send a command to the Duux fan."""
+        import json
         api_base_url = "https://v5.api.cloudgarden.nl"
         url = f"{api_base_url}/sensor/{self._device_id}/commands"
         headers = {
@@ -31,8 +32,10 @@ class DuuxApiClient:
         }
 
         try:
+            # The API expects the command to be a JSON string, not an object
+            command_data = {"command": json.dumps(command)}
             async with self._session.post(
-                url, json={"command": command}, headers=headers
+                url, json=command_data, headers=headers
             ) as response:
                 if not response.ok:
                     error_data = await response.json()

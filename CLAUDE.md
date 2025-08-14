@@ -106,15 +106,32 @@ Authorization: Bearer {jwt_token}
 Content-Type: application/json
 
 {
-  "command": {
-    "power": 1,      // 0=off, 1=on
-    "speed": 15,     // 1-30
-    "horosc": 1,     // 0=no oscillation, 1=oscillate
-    "mode": 0,       // fan mode
-    "night": 0       // 0=normal, 1=night mode
-  }
+  "command": "tune set speed 15"
 }
 ```
+
+**Important**: The `command` field must be a text string in the format `"tune set [parameter] [value]"`. Examples:
+
+```json
+{"command": "tune set power 1"}     // Turn on
+{"command": "tune set power 0"}     // Turn off
+{"command": "tune set speed 8"}     // Set speed to 8
+{"command": "tune set mode 1"}      // Set mode to 1
+{"command": "tune set night 1"}     // Enable night mode
+{"command": "tune set night 0"}     // Disable night mode
+{"command": "tune set horosc 1"}    // Enable horizontal oscillation
+{"command": "tune set horosc 0"}    // Disable horizontal oscillation
+{"command": "tune set verosc 1"}    // Enable vertical oscillation
+```
+
+Command parameters:
+- `power`: 0=off, 1=on
+- `speed`: 1-30 (fan speed when on)
+- `horosc`: 0-3 (horizontal oscillation levels)
+- `verosc`: 0-2 (vertical oscillation levels)  
+- `mode`: 0-3 (fan mode)
+- `night`: 0=normal, 1=night mode
+- `lock`: 0=unlocked, 1=locked
 
 ## Common Issues
 

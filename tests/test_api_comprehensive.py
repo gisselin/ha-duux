@@ -160,10 +160,12 @@ class TestDuuxApiClientComprehensive:
         command = {"power": 1, "speed": 15}
         await self.api_client.send_command(command)
         
-        # Check that the command is properly wrapped
+        # Check that the command is properly wrapped and JSON serialized
         call_args = self.api_client._session.post.call_args
         json_data = call_args[1]["json"]
-        assert json_data == {"command": command}
+        import json
+        expected_command_string = json.dumps(command)
+        assert json_data == {"command": expected_command_string}
 
     async def test_boolean_conversion_oscillation(self):
         """Test boolean conversion for oscillation commands."""

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import logging
 from typing import Any
 
@@ -25,8 +26,8 @@ class DuuxApiClient:
         self._device_id = device_id
         self._jwt_token = jwt_token
 
-    async def send_command(self, command: dict[str, Any]) -> dict[str, Any]:
-        """Send a command to the Duux fan."""
+    async def send_command(self, command_text: str) -> dict[str, Any]:
+        """Send a text command to the Duux fan."""
         url = f"{API_BASE_URL}/sensor/{self._device_id}/commands"
         headers = {
             "Content-Type": "application/json",
@@ -35,8 +36,10 @@ class DuuxApiClient:
         }
 
         try:
+            # The API expects command as a text string in the format "tune set parameter value"
+            command_data = {"command": command_text}
             async with self._session.post(
-                url, json={"command": command}, headers=headers
+                url, json=command_data, headers=headers
             ) as response:
                 if not response.ok:
                     error_data = await response.json()
@@ -70,26 +73,24 @@ class DuuxApiClient:
 
     async def turn_on(self) -> None:
         """Turn on the fan."""
-        await self.send_command({"power": 1})
+        await self.send_command("tune set power 1")
 
     async def turn_off(self) -> None:
         """Turn off the fan."""
-        await self.send_command({"power": 0})
+        await self.send_command("tune set power 0")
 
     async def set_speed(self, speed: int) -> None:
         """Set fan speed (1-30)."""
         if not 1 <= speed <= 30:
             raise ValueError("Speed must be between 1 and 30")
-        await self.send_command({"speed": speed})
+        await self.send_command(f"tune set speed {speed}")
 
     async def set_oscillation(self, oscillate: bool) -> None:
         """Set horizontal oscillation."""
-        await self.send_command({"horosc": 1 if oscillate else 0})
-
-    async def set_mode(self, mode: int) -> None:
-        """Set fan mode."""
-        await self.send_command({"mode": mode})
+        value = 1 if oscillate else 0
+        await self.send_command(f"tune set horosc {value}")
 
     async def set_night_mode(self, night_mode: bool) -> None:
         """Set night mode."""
-        await self.send_command({"night": 1 if night_mode else 0})
+        value = 1 if night_mode else 0
+        await self.send_command(f"tune set night {value}")
