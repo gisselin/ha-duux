@@ -1,0 +1,28 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Duux Fan Setup",
+        "description": "Enter your Duux fan device ID and JWT token",
+        "data": {
+          "device_id": "Device ID",
+          "jwt_token": "JWT Token"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to Duux API",
+      "invalid_auth": "Invalid authentication credentials",
+      "unknown": "Unexpected error occurred"
+    },
+    "abort": {
+      "already_configured": "Device is already configured"
+    }
+  },
+  "issues": {
+    "auth_failed": {
+      "title": "Duux Fan Authentication Failed",
+      "description": "The JWT token for your Duux fan (Device ID: {device_id}) has expired or is invalid. Please update your integration configuration with a fresh token.\n\nTo obtain a new token:\n1. Use a network proxy tool (Proxyman, Wireshark, or Charles Proxy)\n2. Set up SSL proxying for the Duux API host\n3. Use the Duux mobile app to control your fan\n4. Extract the new JWT token from the Authorization header\n5. Reconfigure the integration with the new token"
+    }
+  }
+}

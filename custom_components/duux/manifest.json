@@ -1,0 +1,13 @@
+{
+  "domain": "duux",
+  "name": "Duux Fan",
+  "codeowners": ["@gisselin"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/gisselin/ha-duux",
+  "integration_type": "device",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/gisselin/ha-duux/issues",
+  "requirements": ["aiohttp>=3.8.0"],
+  "version": "1.0.0"
+}

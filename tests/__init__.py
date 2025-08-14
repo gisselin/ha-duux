@@ -1,0 +1,1 @@
+"""Tests for the Duux Fan integration."""
