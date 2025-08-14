@@ -19,7 +19,7 @@ A Home Assistant integration for controlling Duux smart fans through their cloud
 
 Download and install directly through [HACS (Home Assistant Community Store)](https://hacs.xyz/): 
 
-[![Open your Home Assistant instance and open the Duux Fan integration inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=basnijholt&repository=adaptive-lighting&category=integration) 
+[![Open your Home Assistant instance and open the Duux Fan integration inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=gisselin&repository=ha-duux&category=integration) 
 
 #### Manual install 
 
