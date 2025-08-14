@@ -1,6 +1,7 @@
 """Platform for Duux switch integration."""
 from __future__ import annotations
 
+import asyncio
 import logging
 from typing import Any
 
@@ -63,6 +64,8 @@ class DuuxNaturalWindSwitch(CoordinatorEntity[DuuxDataUpdateCoordinator], Switch
         """Turn on Natural Wind mode."""
         try:
             await self.coordinator.api.send_command("tune set mode 1")
+            # Wait for device to process command before refreshing
+            await asyncio.sleep(1)
             await self.coordinator.async_request_refresh()
         except DuuxApiError as err:
             self._handle_api_error(err, "Failed to turn on Natural Wind mode")
@@ -72,6 +75,8 @@ class DuuxNaturalWindSwitch(CoordinatorEntity[DuuxDataUpdateCoordinator], Switch
         """Turn off Natural Wind mode."""
         try:
             await self.coordinator.api.send_command("tune set mode 0")
+            # Wait for device to process command before refreshing
+            await asyncio.sleep(1)
             await self.coordinator.async_request_refresh()
         except DuuxApiError as err:
             self._handle_api_error(err, "Failed to turn off Natural Wind mode")

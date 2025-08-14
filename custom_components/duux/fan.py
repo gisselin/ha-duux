@@ -1,6 +1,7 @@
 """Platform for Duux fan integration."""
 from __future__ import annotations
 
+import asyncio
 import logging
 from typing import Any
 
@@ -108,6 +109,8 @@ class DuuxFan(CoordinatorEntity[DuuxDataUpdateCoordinator], FanEntity):
                 speed = percentage_to_ranged_value(SPEED_RANGE, percentage)
                 await self.coordinator.api.set_speed(int(speed))
             
+            # Wait for device to process command before refreshing
+            await asyncio.sleep(1)
             await self.coordinator.async_request_refresh()
         except DuuxApiError as err:
             self._handle_api_error(err, "Failed to turn on fan")
@@ -117,6 +120,8 @@ class DuuxFan(CoordinatorEntity[DuuxDataUpdateCoordinator], FanEntity):
         """Turn off the fan."""
         try:
             await self.coordinator.api.turn_off()
+            # Wait for device to process command before refreshing
+            await asyncio.sleep(1)
             await self.coordinator.async_request_refresh()
         except DuuxApiError as err:
             self._handle_api_error(err, "Failed to turn off fan")
@@ -127,6 +132,8 @@ class DuuxFan(CoordinatorEntity[DuuxDataUpdateCoordinator], FanEntity):
         try:
             speed = percentage_to_ranged_value(SPEED_RANGE, percentage)
             await self.coordinator.api.set_speed(int(speed))
+            # Wait for device to process command before refreshing
+            await asyncio.sleep(1)
             await self.coordinator.async_request_refresh()
         except DuuxApiError as err:
             self._handle_api_error(err, "Failed to set fan speed")
@@ -136,6 +143,8 @@ class DuuxFan(CoordinatorEntity[DuuxDataUpdateCoordinator], FanEntity):
         """Set oscillation."""
         try:
             await self.coordinator.api.set_oscillation(oscillating)
+            # Wait for device to process command before refreshing
+            await asyncio.sleep(1)
             await self.coordinator.async_request_refresh()
         except DuuxApiError as err:
             self._handle_api_error(err, "Failed to set fan oscillation")
