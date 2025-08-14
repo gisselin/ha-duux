@@ -2,21 +2,50 @@
   "config": {
     "step": {
       "user": {
-        "title": "Duux Fan Setup",
+        "title": "Duux Fan Setup Method",
+        "description": "Choose how you want to set up your Duux fan integration",
+        "data": {
+          "setup_method": "Setup Method"
+        },
+        "data_description": {
+          "setup_method": "Automated: Use built-in proxy to automatically capture credentials from the Duux app\nManual: Enter device ID and JWT token manually"
+        }
+      },
+      "manual_setup": {
+        "title": "Manual Duux Fan Setup",
         "description": "Enter your Duux fan device ID and JWT token",
         "data": {
           "device_id": "Device ID",
           "jwt_token": "JWT Token"
         }
+      },
+      "automated_setup": {
+        "title": "Automated Setup",
+        "description": "Starting automated credential capture..."
+      },
+      "proxy_instructions": {
+        "title": "Configure Your Mobile Device",
+        "description": "**Step 1: Configure proxy settings on your mobile device:**\n   - Host: {proxy_host}\n   - Port: {proxy_port}\n   - Enable 'Use for HTTPS' or similar SSL option\n\n**Step 2: Install SSL certificate (required for HTTPS interception):**\n   - Open a web browser on your mobile device\n   - Navigate to: http://mitm.it\n   - Download and install the mitmproxy certificate for your platform\n   - **Important:** Enable the certificate in your device's trusted certificate store\n\n**Step 3: Use the Duux app:**\n   - Open the Duux mobile app\n   - Control your fan (turn on/off, change speed, etc.)\n   - The integration will automatically capture your credentials\n\n**Step 4:** Click 'Continue' when ready or 'Cancel' to abort\n\n**Note:** Remember to remove the proxy settings and certificate after setup!"
+      },
+      "credential_capture": {
+        "title": "Capturing Credentials",
+        "description": "Waiting for credentials from the Duux app...\n\nPlease use your Duux mobile app to control your fan. The integration will automatically detect and capture your device ID and JWT token."
       }
     },
     "error": {
       "cannot_connect": "Failed to connect to Duux API",
       "invalid_auth": "Invalid authentication credentials",
-      "unknown": "Unexpected error occurred"
+      "unknown": "Unexpected error occurred",
+      "proxy_start_failed": "Failed to start proxy server: {error}",
+      "capture_timeout": "Timeout waiting for credentials. Please ensure your mobile device is configured correctly and you're using the Duux app.",
+      "incomplete_credentials": "Could not capture complete credentials. Please try again or use manual setup.",
+      "invalid_captured_credentials": "The captured credentials are invalid. Please try again or use manual setup.",
+      "capture_error": "Error during credential capture: {error}"
     },
     "abort": {
-      "already_configured": "Device is already configured"
+      "already_configured": "Device is already configured",
+      "user_cancelled": "Setup cancelled by user",
+      "proxy_error": "Proxy configuration error"
     }
   },
   "issues": {
