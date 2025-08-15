@@ -86,6 +86,26 @@ hass --config /path/to/test/config
 - **JWT Token**: Bearer token from Duux mobile app
 
 ### Obtaining Credentials
+
+**Option 1: Automated Script (Recommended)**
+Run this one-liner command to automatically extract credentials:
+
+```bash
+curl -sSL https://raw.githubusercontent.com/gisselin/ha-duux/main/scripts/extract_credentials.py | python3
+```
+
+This script will:
+1. Start a proxy server automatically
+2. Provide setup instructions for your mobile device
+3. Capture credentials when you use the Duux app
+4. Display the Device ID and JWT token for Home Assistant setup
+
+**Requirements:**
+```bash
+pip install mitmproxy
+```
+
+**Option 2: Manual Method**
 1. Install network proxy tool (Proxyman, Wireshark, Charles Proxy)
 2. Configure SSL proxying for `v5.api.cloudgarden.nl`
 3. Use Duux mobile app while monitoring network traffic
