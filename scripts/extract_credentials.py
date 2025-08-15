@@ -26,8 +26,6 @@ import subprocess
 import sys
 from typing import Any, Dict
 
-import aiohttp
-
 # Configure logging - silence mitmproxy completely
 logging.basicConfig(
     level=logging.ERROR,    # Only show errors
@@ -143,9 +141,8 @@ class DuuxCredentialCapture:
 class DuuxCredentialExtractor:
     """Main credential extraction coordinator."""
     
-    def __init__(self, port: int = 8080, ha_endpoint: str = None):
+    def __init__(self, port: int = 8080):
         self.port = port
-        self.ha_endpoint = ha_endpoint
         self.proxy_master = None
         self.capture_addon = DuuxCredentialCapture()
         self.running = False
@@ -243,38 +240,8 @@ class DuuxCredentialExtractor:
                 self.running = False
                 if self.proxy_master:
                     self.proxy_master.shutdown()
-                
-                # Send credentials to HA if endpoint provided
-                if self.ha_endpoint:
-                    credentials = self.capture_addon.get_credentials()
-                    await self.send_to_ha(credentials)
-                
                 break
             await asyncio.sleep(1.0)  # Check every second
-
-    async def send_to_ha(self, credentials: Dict[str, Any]) -> None:
-        """Send credentials to Home Assistant endpoint."""
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(
-                    f"{self.ha_endpoint}/credentials",
-                    json=credentials,
-                    headers={"Content-Type": "application/json"},
-                    timeout=aiohttp.ClientTimeout(total=10)
-                ) as response:
-                    if response.status == 200:
-                        print("✅ Credentials sent to Home Assistant successfully!")
-                        print("🎉 Setup completed! Check your Home Assistant integration.")
-                    else:
-                        print(f"⚠️  Failed to send credentials to HA: {response.status}")
-                        print("📋 Please enter them manually in Home Assistant")
-                        
-        except asyncio.TimeoutError:
-            print("⚠️  Timeout sending credentials to Home Assistant")
-            print("📋 Please enter them manually in Home Assistant")
-        except Exception as err:
-            print(f"⚠️  Error sending credentials to HA: {err}")
-            print("📋 Please enter them manually in Home Assistant")
 
     def stop_proxy(self) -> None:
         """Stop the proxy server."""
@@ -326,11 +293,6 @@ async def main():
         default=8080,
         help="Proxy port (default: 8080)"
     )
-    parser.add_argument(
-        "--ha-endpoint",
-        type=str,
-        help="Home Assistant endpoint to send credentials to (e.g., http://localhost:8123)"
-    )
     
     args = parser.parse_args()
     
@@ -339,7 +301,7 @@ async def main():
         print("❌ Could not install mitmproxy!")
         sys.exit(1)
     
-    extractor = DuuxCredentialExtractor(args.port, args.ha_endpoint)
+    extractor = DuuxCredentialExtractor(args.port)
     
     # Handle Ctrl+C gracefully
     def signal_handler(sig, frame):
