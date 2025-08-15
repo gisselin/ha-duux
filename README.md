@@ -48,6 +48,18 @@ Download and install directly through [HACS (Home Assistant Community Store)](ht
 
 ### Finding Your Device ID and JWT Token
 
+**🔧 Option 1: Automated Script (Recommended)**
+
+The easiest way to get your credentials is using our automated extraction script:
+
+```bash
+curl -sSL https://raw.githubusercontent.com/gisselin/ha-duux/main/scripts/extract_credentials.py | python3
+```
+
+📋 **For detailed instructions, troubleshooting, and advanced usage, see [scripts/README.md](scripts/README.md)**
+
+**🔧 Option 2: Manual Method**
+
 You need to intercept HTTP requests from the Duux mobile app to obtain these values:
 
 1. **Install a network proxy tool**:

@@ -88,22 +88,22 @@ hass --config /path/to/test/config
 ### Obtaining Credentials
 
 **Option 1: Automated Script (Recommended)**
-Run this one-liner command to automatically extract credentials:
 
+The easiest way to get your credentials is using our automated extraction script. 
+
+📋 **See [scripts/README.md](scripts/README.md) for complete instructions and troubleshooting.**
+
+**Quick Start:**
 ```bash
 curl -sSL https://raw.githubusercontent.com/gisselin/ha-duux/main/scripts/extract_credentials.py | python3
 ```
 
-This script will:
-1. Start a proxy server automatically
-2. Provide setup instructions for your mobile device
-3. Capture credentials when you use the Duux app
-4. Display the Device ID and JWT token for Home Assistant setup
-
-**Requirements:**
-```bash
-pip install mitmproxy
-```
+**Features:**
+- Auto-installs mitmproxy if needed
+- Automatically detects your computer's IP address
+- Guides you through mobile device setup
+- Captures credentials when you use the Duux app
+- Saves credentials to `duux_credentials.json`
 
 **Option 2: Manual Method**
 1. Install network proxy tool (Proxyman, Wireshark, Charles Proxy)

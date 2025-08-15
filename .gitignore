@@ -167,3 +167,6 @@ known_devices.yaml
 
 # Claude Code
 .claude
+
+# Credentials extracted from the script
+duux_credentials.json
