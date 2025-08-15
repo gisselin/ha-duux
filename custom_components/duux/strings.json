@@ -2,22 +2,46 @@
   "config": {
     "step": {
       "user": {
-        "title": "Duux Fan Setup",
-        "description": "Enter your Duux fan device ID and JWT token.\n\n**🔧 Need help getting credentials? Follow these steps:**\n\n**Step 1:** Run the credential extraction script:\n```bash\ncurl -sSL https://raw.githubusercontent.com/gisselin/ha-duux/main/scripts/extract_credentials.py | python3\n```\n\n**Step 2:** The script will:\n• Auto-install mitmproxy if needed\n• Start a proxy server on your computer\n• Show your computer's IP address\n\n**Step 3:** Configure your mobile device:\n• Go to WiFi settings → Configure Proxy\n• Set proxy to the IP:port shown by the script\n• Open http://mitm.it in mobile browser\n• Download and install the certificate\n\n**Step 4:** Use the Duux mobile app:\n• Open the Duux app on your phone\n• Control your fan (turn on/off, change speed)\n• The script will automatically capture your credentials\n\n**Step 5:** Copy the displayed Device ID and JWT Token into the fields below.",
+        "title": "Duux Fan Setup Method",
+        "description": "Choose how you want to set up your Duux fan integration:",
+        "data": {
+          "setup_method": "Setup Method"
+        },
+        "data_description": {
+          "setup_method": "**Automated**: One-click setup with automatic credential capture\n**Manual**: Enter device ID and JWT token manually"
+        }
+      },
+      "manual_setup": {
+        "title": "Manual Duux Fan Setup",
+        "description": "Enter your Duux fan device ID and JWT token.\n\n**🔧 Need help getting credentials?**\nRun this command to extract them:\n\n```bash\ncurl -sSL https://raw.githubusercontent.com/gisselin/ha-duux/main/scripts/extract_credentials.py | python3\n```\n\nThe script will guide you through the process of capturing credentials from the Duux mobile app.",
         "data": {
           "device_id": "Device ID (MAC address format: xx:xx:xx:xx:xx:xx)",
           "jwt_token": "JWT Token"
+        }
+      },
+      "automated_setup": {
+        "title": "Automated Setup - Run Script",
+        "description": "🚀 **Ready for automated setup!**\n\nRun this command on your computer:\n\n```bash\n{script_command}\n```\n\n**What happens next:**\n1. Script auto-installs mitmproxy if needed\n2. Starts proxy server and shows mobile setup instructions\n3. You configure your phone and use the Duux app\n4. Credentials are automatically sent to Home Assistant\n5. Integration setup completes automatically!\n\n**Waiting for script to send credentials...**",
+        "description_placeholders": {
+          "script_command": "Command to run the script with HA endpoint"
         }
       }
     },
     "error": {
       "cannot_connect": "Failed to connect to Duux API",
       "invalid_auth": "Invalid authentication credentials",
-      "unknown": "Unexpected error occurred"
+      "unknown": "Unexpected error occurred",
+      "server_start_failed": "Failed to start credential server: {error}",
+      "invalid_captured_credentials": "The captured credentials are invalid. Please try manual setup.",
+      "automated_setup_failed": "Automated setup failed. Please try manual setup."
     },
     "abort": {
-      "already_configured": "Device is already configured"
+      "already_configured": "Device is already configured",
+      "server_error": "Credential server error"
     }
+  },
+  "progress": {
+    "waiting_for_script": "Waiting for script to send credentials..."
   },
   "issues": {
     "auth_failed": {
